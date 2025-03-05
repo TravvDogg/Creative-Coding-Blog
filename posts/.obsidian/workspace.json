@@ -20,19 +20,8 @@
               "icon": "lucide-file",
               "title": "Second-blog-post"
             }
-          },
-          {
-            "id": "24deb01f7876f532",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -176,7 +165,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "24deb01f7876f532",
+  "active": "d126b58719d08a1e",
   "lastOpenFiles": [
     "Templates/Blog-Post-Template.md",
     "Templates",
