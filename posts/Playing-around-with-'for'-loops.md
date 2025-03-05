@@ -1,5 +1,5 @@
 ---
-title: Playing around with 'for' loops in p5
+title: Playing-around-with-'for'-loops
 published_at: 2025-03-05
 snippet: The process of figuring out and drawing a grid of squares on the canvas
 disable_html_sanitization: true
@@ -19,4 +19,5 @@ end
 ```  
 however in javascript, the suggested syntax is to use a declaration keyword before i; `let`, which i understand to represent or act as the counterpart to`local` used in other languages.  
   
-not sure how i feel about this, but js doesn't directly declare their variable's types, similar to some simpler languages i've used, however from my limited experience with c# and swift(❤️)
+not sure how i feel about this, but js doesn't directly declare their variable's types, similar to some simpler languages i've used, however from my limited experience with c# and swift(i looove ❤️ swift), i find mandatory type declaration to be more readable and generally preferrable over a looser language like js.  
+  
