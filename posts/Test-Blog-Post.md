@@ -1,7 +1,7 @@
 ---
-title: Test-Blog-Post
+title: "Week 1a: What is MarkDown?"
 published_at: 2025-03-05
-snippet: A second example of a blog post.
+snippet: I experiment with markdown formatting.
 disable_html_sanitization: true
 allow_math: true
 ---
