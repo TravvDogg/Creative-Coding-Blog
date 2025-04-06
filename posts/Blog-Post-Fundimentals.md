@@ -93,5 +93,3 @@ Visit [ $\KaTeX$ ](https://katex.org/docs/supported#fractions-and-binomials) for
 
     draw_frame ()
 </script>
-
-

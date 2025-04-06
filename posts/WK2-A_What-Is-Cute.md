@@ -9,7 +9,7 @@ Today in class i was asked a question that i've never thought to phrase before..
 Well, I can list things that i find cute: Kittens, Puppies, Quokkas, i could go on, but the question still stands. **What is cute?**.
 ![Quokka](Wk-2A/Quokka.jpg)
 <small> I love quokkas so much. Read more about them [Here](https://wwf.org.au/blogs/8-interesting-facts-about-quokkas/)! </small>
-## What Makes these Things Cute?
+# What Makes these Things Cute?
 In a more abstract way of answering the question, i can look at things that i find cute and their attributes. What do they have in common?  
 - They are cute because they are **small**
 - They are cute because they are **fluffy**
@@ -17,7 +17,7 @@ In a more abstract way of answering the question, i can look at things that i fi
 Well, you get the point. But we can go one step further: **What is similar in these attributes?**  
   
 Well, they can all be pooled into a similar place on the **Aesthetic Register**
-## What's an 'Aesthetic Register?'  
+# What's an 'Aesthetic Register?'  
 In its essence, an Aesthetic Register measures an object's ability to make someone **feel** something based on where it sits on a 'scale' of sorts. 
 It's easy to think of it with a visual example.  
 Look at these two drawings
@@ -31,4 +31,9 @@ These **Properties** represent different weights on the **Aesthetic Register**, 
 
 These weights on a register are not absolute however, and each person might experience them differently from someone else, based on their biases and expectations.
 
-## How can i use this 'Register' in my P5.js Sketches?
+# How can i use this 'Register' in my P5.js Sketches?
+Whatever direction i go down, it's important that i constantly refer back to this register in every decision i make. Programatically in P5, i can make good use of rounded edges and things that move slowly, and i would be wise to avoid jittery movements or sharp edges for that matter.  
+
+Well, at least that covers the visual design, but there is still interaction and sound design to worry about. For sound design, i plan to source sounds that people might find relaxing. I don't know if there are any sounds that are universally described as 'cute' but following that cute things are often soft and slow, the descriptor of calm seems to fit here.  
+
+Lastly, the interactions in my sketch must feel natural and intuitive. It's a bit hard to recall any digital or computer interactions i have had that were cute in the sense of the interaction itself, but i want to make sure that, following the logic proposed everywhere else in this blog post, it is smooth and subtle, but not overwhelmingly noticeable that it takes away from the visual and auditory experience of my sketch.
