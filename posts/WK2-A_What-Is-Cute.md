@@ -37,3 +37,4 @@ Whatever direction i go down, it's important that i constantly refer back to thi
 Well, at least that covers the visual design, but there is still interaction and sound design to worry about. For sound design, i plan to source sounds that people might find relaxing. I don't know if there are any sounds that are universally described as 'cute' but following that cute things are often soft and slow, the descriptor of calm seems to fit here.  
 
 Lastly, the interactions in my sketch must feel natural and intuitive. It's a bit hard to recall any digital or computer interactions i have had that were cute in the sense of the interaction itself, but i want to make sure that, following the logic proposed everywhere else in this blog post, it is smooth and subtle, but not overwhelmingly noticeable that it takes away from the visual and auditory experience of my sketch.
+
