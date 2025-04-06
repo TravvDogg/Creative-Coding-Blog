@@ -5,7 +5,27 @@ snippet: An example of a blog post.
 disable_html_sanitization: true
 allow_math: true
 ---
+<iframe id = "Moving-Square" src =" https://editor.p5js.org/TravvDogg/full/Nq_g4QqA0"></iframe>
+<script type="module">
+    console.log (`hello world! 🚀`)
 
+    const iframe  = document.getElementById (`Moving-Square`)
+    iframe.width  = iframe.parentNode.scrollWidth
+    iframe.height = iframe.width * 9 / 16 + 42
+</script>
+
+or
+
+<script src="./scripts/p5.js"></script>
+<script>
+	function setup() {
+		createCanvas(400, 400)
+	}
+
+	function draw() {
+		background(200)
+	}
+</script>
 # This is h1
 
 ![a drippy lemon](logo.svg)
