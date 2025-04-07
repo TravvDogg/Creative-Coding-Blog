@@ -77,3 +77,9 @@ Effective complexity describes the compressible parts of an object. Effective co
 	}, "sketch_High-E-C")
 </script>
 Fractal tree with random variation
+
+To give this fractal structure, i used **recursion** to create two branches for any existing branch.  
+
+Each **length and angle** are relatively hardcoded, with **some random variation**.  
+
+There is a **minimum branch length** as a **stopping condition** that determines when the tree is complete, which stops the tree from having infinite branches.  
