@@ -84,5 +84,7 @@ Each **length and angle** are relatively hardcoded, with **some random variation
 
 There is a **minimum branch length** as a **stopping condition** that determines when the tree is complete, which stops the tree from having infinite branches.  
 
+## The Purpose of Structure
+In reference to his [paper](https://www.philipgalanter.com/downloads/ga2003_paper.pdf), Philip Galander mentions  "... some maintain that this notion of structure is subjective and remains in the eye of the beholder." Regardless of how an audience might interpret art, they need something to '*grab onto*'. That is to say that outside of some margin of creative opinion, **static noise isn't generally perceived as art**. Instead, it needs something to *differentiate* itself from **just noise**, which is defined as *structure*. It gives **context** to any randomness or noise present, which is vital to forming a *meaningful creative interpretation* of an art piece.
 ## Sabato Visconti
 [Sabato Visconti](https://www.sabatobox.com/new-century-new-materials#1) demonstrates **Structure** in his use of typography and layout in this particulat piece, while he uses **Randomness** in the colors in the main body of the piece. Therefore, this piece achieves high effective complexity
