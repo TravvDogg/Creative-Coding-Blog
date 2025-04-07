@@ -83,3 +83,6 @@ To give this fractal structure, i used **recursion** to create two branches for 
 Each **length and angle** are relatively hardcoded, with **some random variation**.  
 
 There is a **minimum branch length** as a **stopping condition** that determines when the tree is complete, which stops the tree from having infinite branches.  
+
+## Sabato Visconti
+[Sabato Visconti](https://www.sabatobox.com/new-century-new-materials#1) demonstrates **Structure** in his use of typography and layout in this particulat piece, while he uses **Randomness** in the colors in the main body of the piece. Therefore, this piece achieves high effective complexity
