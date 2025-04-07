@@ -5,6 +5,8 @@ snippet: An example of a blog post.
 disable_html_sanitization: true
 allow_math: true
 ---
+## Embedding p5 Sketches
+
 <iframe id = "Moving-Square" src =" https://editor.p5js.org/TravvDogg/full/Nq_g4QqA0"></iframe>
 <script type="module">
     console.log (`hello world! 🚀`)
@@ -26,6 +28,9 @@ or
 		background(200)
 	}
 </script>
+
+## Embedding Rafael's works:
+<iframe src="https://www.newrafael.com/reflection/" style="width:100%; height:600px; border:none;" title="New Rafael Zoom"></iframe>
 # This is h1
 
 ![a drippy lemon](logo.svg)
