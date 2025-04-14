@@ -18,7 +18,7 @@ allow_math: true
 
 or
 
-<script src="./scripts/p5.js"></script>
+<script src="./_scripts/p5.js"></script>
 <script>
 	function setup() {
 		createCanvas(400, 400)
