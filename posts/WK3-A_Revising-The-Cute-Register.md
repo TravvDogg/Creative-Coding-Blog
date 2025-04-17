@@ -28,5 +28,5 @@ I think this silence can be seen as a functionally 'cute' aspect of the sketch. 
 
 This sketch *relinquishes its control over what we hear,* which helps keep our attention on the visuals of the sketch, as well as implying the **absence of control** over the environment's sound.
 
-# Interactively
+# Interactivity
 This sketch offers **no interaction**, or at least none that appeared in my testing. In a vacuum, this tells me that the piece is not expecting us to do anything, implying that it has full agency. But in the context of this sketch, it's more of a **gentle** reminder that *we don't have to do anything* for this sketch. We can just relax looking at it without needing to do *anything at all* to influence it. Control in the case of the former can be interpreted as *a force of authority*, where this piece uses it to represent the absolute **absence of authority**, that there is nothing we **have to do** (rather than nothing we *can* do), which allows us to just experience the artwork **passively**, and tells us to focus on every other active element of the sketch.
