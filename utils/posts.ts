@@ -31,14 +31,19 @@ export async function getPosts(): Promise<Post[]> {
 // Get post.
 export async function getPost(slug: string): Promise<Post | null> {
   const text = await Deno.readTextFile(join(DIRECTORY, `${slug}.md`));
-  const { attrs, body } = extract(text);
-  return {
-    slug,
-    title: attrs.title,
-    publishedAt: new Date(attrs.published_at),
-    content: body,
-    snippet: attrs.snippet,
-    disableHtmlSanitization: attrs.disable_html_sanitization,
-    allowMath: attrs.allow_math,
-  };
+  try {
+    const { attrs, body } = extract(text);
+    return {
+      slug,
+      title: attrs.title,
+      publishedAt: new Date(attrs.published_at),
+      content: body,
+      snippet: attrs.snippet,
+      disableHtmlSanitization: attrs.disable_html_sanitization,
+      allowMath: attrs.allow_math,
+    };
+  } catch (err) {
+    console.warn(`Failed to extract front matter from "${slug}.md":`, err.message);
+    return null;
+  }
 }
