@@ -18,8 +18,13 @@ allow_math: true
 
 or
 
+// Not working at the moment, dont know why
 <script src="./_scripts/p5.js"></script>
-<script>
+
+<div id="basic_script-div"></div>
+
+<script id="basic_script" type="module">
+    import codeblockRenderer from "/_scripts/codeblock_renderer.js"
 	function setup() {
 		createCanvas(400, 400)
 	}
@@ -27,6 +32,8 @@ or
 	function draw() {
 		background(200)
 	}
+
+    codeblockRenderer (document, "basic_script", "basic_script-div")
 </script>
 
 ## Embedding Rafael's works:
@@ -62,6 +69,7 @@ Visit [ $\KaTeX$ ](https://katex.org/docs/supported#fractions-and-binomials) for
 ## Embedding video:
 
 <iframe id="coding_train_video" src="https://www.youtube.com/embed/rI_y2GAlQFM?si=RDgjkpunxk1mQzMI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 
 <script type="module">
 
