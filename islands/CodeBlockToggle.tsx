@@ -6,7 +6,7 @@ export default function CodeBlockToggle() {
     const addToggleButtons = () => {
       // Find all code blocks
       const codeBlocks = document.querySelectorAll('.markdown-body pre');
-      console.log("Found", codeBlocks.length, "code blocks");
+      // console.log("Found", codeBlocks.length, "code blocks");
       
       if (codeBlocks.length === 0) {
         // Try again in 100ms if no code blocks found yet
