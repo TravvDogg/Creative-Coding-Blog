@@ -46,7 +46,13 @@ function draw() {
   
   // audio analysis
   let spectrum = fft.analyze()
-  let sum = spectrum.reduce((a,b)=>a+b, 0)
+
+  function sumSpectrum(arr, i = 0) {
+    if (i >= arr.length) return 0
+    return arr[i] + sumSpectrum(arr, i+1)  // recursion!!!! :)
+  }
+  let sum = sumSpectrum(spectrum)
+
   audioLevel = sum / spectrum.length
   glitchAmount = constrain(audioLevel/128, 0, 1) * 1
   
