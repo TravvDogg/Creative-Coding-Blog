@@ -7,11 +7,12 @@ allow_math: true
 ---
 
 # My Net-Art: Music Visualiser
-<iframe
+
+<iframe id="A2-Chaos_Frame"
   src="/A2-Chaos/index.html"
   style="width:100%; aspect-ratio: 4 / 3; display:block; border:none;"
   sandbox="allow-scripts allow-same-origin"
-></iframe>  
+></iframe>
 
 <small>A2_Chaos on [Github](https://github.com/TravvDogg/A2_Chaos)</small>
 
