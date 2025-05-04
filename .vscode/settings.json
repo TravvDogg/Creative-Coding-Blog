@@ -8,5 +8,10 @@
         "scanline",
         "scanlines",
         "Serres"
+    ],
+    "cSpell.ignoreWords": [
+        "fract",
+        "glcanvas",
+        "highp"
     ]
 }

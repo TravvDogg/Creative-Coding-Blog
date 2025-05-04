@@ -58,6 +58,8 @@ What you see in the final piece is the set of individual parts that made it to t
 Realizing this abstraction was a key part in unlocking my creative potential.. Or rather, separating my creative mind from my technical mind.
 
 # Each Piece of the code, Explained
+I don't blame you if you skim over the process. There are more characters writing about the code than there are actual lines of code. Call me thorough. :)
+
 As mentioned earlier, this piece is a culmination of many previous attempts. As such, it's fairly easy to go through line-by-line and extract the meaning behind each modular part of the code. Note that the code i document will be *slightly* different from the code embedded in this document: The intended experience is in fullscreen, so the documented code is the fullscreen code. The only differences will be how the sizes of the frame and objects are calculated.
 
 Although inherently most of the code was made without it, almost every working visual element relies on different parts of p5's audio engine to modulate or control them. Without access to an FFT (fast fourier transform) like p5 provides, there simply would be no option for audio visualization, and it would be a completely randomly generated frame, which wouldn't be very interactive or interesting to play with. 
@@ -72,7 +74,7 @@ This script joins `particle.js` in being the only scripts using P5's libraries.
 
 Let's break it into parts, so it's easier to digest, and a bit less daunting to look at:
 
-### Sketch.js Part 1: Setup and Initial Declaration
+### Sketch.js: Setup and Initial Declaration
 ```js
 /* \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\
 ------------------------------------------------------------------------
@@ -136,7 +138,7 @@ At the top of the block, we initialise some variables like `buffer`, `particles`
 In our `setup()`, we call some functions, mainly initialization. Most importantly, we create the buffer to be used as a 'screenshot' of the canvas, and we initialise the FFT and mic input.
 > FFT stands for Fast Fourier Transform. There's a lot of math behind it, but essentially it allows us to isolate parts of the audio input, like Bass, Mids and Treble, as well as Loudness and other characteristics.
 
-### Sketch.js Part 2: Everything inside `draw()`
+### Sketch.js: Everything inside `draw()`
 My code uses p5's libraries. This next section makes use of the `draw()` function, which acts as a constant update, running(or trying to run) at the framerate we declared in `setup()`, as `frameRate(60)`.
 
 The `draw()` loop contains quite the sizeable amount of code. Instead of breaking it apart as a whole, i'll break it down into functional parts. That way we get a better understanding of my thought process, and the modularity of each part of the code.
@@ -300,6 +302,10 @@ image(buffer, 0, 0)
 noTint()
 pop()
 ```
+```js
+// Copy current canvas into buffer for next frame
+buffer.image(get(0, 0, width, height), 0, 0)
+```
 
 I use `push()` and `pop()` at the start and end of my code to isolate transforms, so only the buffered frame is affected
   
@@ -310,6 +316,10 @@ the value of `rotation` is based in the volume of the music's mid-tones(`mid`) a
 There's also a tiny amount of shake applied, based on the amount of bass present, dictated by `glitchAmount`. Originally it was a lot more pronounced, but on more bass-heavy songs, it became overwhelming. I think it's perfectly subtle in its current state.
 
 Lastly, the buffered canvas is given a tint, an opacity and drawn again, resized.
+
+After everything else is drawn on top, the canvas is loaded into the buffer with `buffer.image(get())`. Anything below this will be drawn after the buffer, meaning it will be delayed by a frame and won't sync with everything else.
+
+Anything between these lines is captured inside of the frame buffer and drawn again, resized in the next frame.
 
 ### Sketch.js: Glitch Scanlines
 ```js
@@ -348,7 +358,7 @@ the scanlines are given a random chance each frame to trigger, the chance rises 
 ### Sketch.js: Treble Circles
 ```js
 // Treble circles
-  // spawn persistent particles on click
+  // spawn persistent particles
   for (let i = 0; i < (treble / 255) * 20; i++) {
     particles.push(new Particle(random(width), random(height)));
   }
@@ -363,3 +373,568 @@ for (let i = particles.length - 1; i >= 0; i--) {
   }
 }
 ```
+Treble circles were a late addition to the sketch, i added them to fulfil 2 purposes at once: They gave some treble reaction to the sketch, and they allowed me to tick off the assignment rubric's `class` requirement. 
+
+This part of the code probably has the lowest scope out of the entire codebase, but for what it is, the effect is quite strong and it definitely serves its purpose.
+
+The first half of this block spawns particles based on the amount of treble energy with a for loop, which has a variable loop condition, which i've never really done before. It uses the canvas's `width` and `height` variables to randomly place particles across the screen.
+
+The second half of the block iterates through each particle and calls the `update()` and `draw()` functions of the `particle` class. Finally, if the particle's `isDead` condition is met, the particle is removed.
+
+### Sketch.js: Glitchy Holes / Buffer drawing
+```js
+// Glitchy 'Holes'
+if (glitchFrames > 0) {
+  // carve out the hole
+  buffer.erase()
+  buffer.rect(glitchX, glitchY, glitchW, glitchH)
+  buffer.noErase()
+
+  // extract the patch as its own buffer
+  let patch = buffer.get(glitchX, glitchY, glitchW, glitchH)
+  // invert the buffer 
+  // (or any effect. I just chose invert but there are 
+  // a few to choose from that look interesting too)
+  patch.filter(INVERT)
+  // draw it back into the spot
+  buffer.image(patch, glitchX, glitchY)
+
+  glitchFrames--
+  if (glitchFrames == 1) {
+    resizeCanvas(windowWidth, windowHeight)
+  }
+}
+// or start a new one
+else if (random() < glitch_chance) {
+  glitchW = random(width / 16, width / 3)
+  glitchH = random(height / 16, height / 3)
+  glitchX = random(0, width - glitchW)
+  glitchY = random(0, height - glitchH)
+  glitchFrames = int(random(100, 1000))
+}
+```
+Drawn on top of the buffer are the most glitchy of the elements, and this idea started from out of the blue. In an early version of the code, there was some manual pixel shifting (was slow and i couldn't get it to look perfect, so it didn't make it far. In hindsight, should've tried to get it to work in webGL), but it had such a unique effect when the window was resized. It looked like wet paint on a canvas, spreading out. Sadly i didn't take good care of the code and a lot of the early work was thrown away without any regard for documentation (silly mistake), and i cant find it to share here. Bummer.
+
+The goal was to capture and localize that spreading effect, so i captured a small window of the frame with `buffer.rect()` and applied a filter to it with p5's `.filter()`, and after some time i called `resizeCanvas()` which cleared the screen, but also gave a short flash which i felt fit in well with the glitchy aesthetic of this code. 
+
+It gave just enough randomness and chaos that the piece wouldn't feel the same without it. It's that small amount of dissonance that brings it together, and keeps it from feeling too perfect and polished.
+
+## Particle.js
+In one long file, these scripts feel long and complicated, but really they aren't that much at all. Or at least that's the case for the other two scripts, this one's really short and only has a handful of lines of code.
+
+
+### Particle.js: Constructor
+```js
+/* \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\
+------------------------------------------------------------------------
+        Written by Travis Lizio | Creative Coding A2
+------------------------------------------------------------------------
+        particle Class: 
+          Manages each treble particle.
+------------------------------------------------------------------------
+\\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ */
+
+class Particle {
+    constructor(x, y) {
+      // Starting parameters:
+      // Position
+      this.x = x
+      this.y = y
+      // Random velocity X and Y
+      this.vx = random(-2, 2)
+      this.vy = random(-2, 2)
+      // Random size
+      this.size = random(15, 27)
+      // Random lifespan
+      this.life = int(random(30, 100))
+      // Random colour (HSV)
+      this.color = [
+        random(360),
+        random(60),
+        random(50, 100),
+        random(0.5, 1)
+      ]
+    }
+```
+The code declares the class `Particle` and assigns it arguments with `constructor()`, to be set when the class is called. 
+
+Inside of `constructor`, the particle's individual variables are set with `this.` Its position is given by the two arguments `x` and `y` when calling the class. The rest of the variables Velocity (`vx` and `vy`), `size` and `life` are set randomly with their own range. `color` is set as an array of 4 values, representing each value of the `HSBA` colour space
+
+### Particle.js: update()
+
+```js
+update() {
+  // Move the particle
+  this.x += this.vx
+  this.y += this.vy
+
+  // Update lifespan
+  this.life--
+}
+```
+Its a lot to take in I know. 
+
+Jokes aside, without this code, the particle would just sit there immobile, forever.
+
+For the sake of being thorough: The first half of the function controls the position (`this.x`, `this.y`) based on the velocity (`this.vx`, `this.vy`) defined in the constructor
+
+Then the lifespan is decremented, with `this.life--`. for clarity, the syntax `var--` called decrementing just subtracts 1 from the value.
+
+### Particle.js: draw()
+```js
+draw() {
+    noStroke()
+    colorMode(HSB)
+    // Draw the coloured circle
+    fill(this.color[0], this.color[1], this.color[2], this.color[3]);
+    colorMode(RGB)
+    ellipse(this.x, this.y, this.size)
+  }
+  
+  // Kill the particle if its life has no time remaining
+  isDead() {
+    return this.life <= 0
+  }
+}
+```
+the reason `draw()` and `update()` are separate doesn't actually do much in the context of how they are used, since they are both called together in the main loop in `sketch.js`. But, it does look nice and separating function from visuals is nicer to work with.
+
+Admittedly, there is almost certainly a better way to write almost every line of code in this example, but what matters is 
+1. It works, and 
+2. It's readable
+
+`noStroke()` and `colorMode(HSB)` just initialise how i want to draw the shape. Probably redundant but like before, it's consistent and readable.
+
+`fill()` applies the colour values given by the array `this.color`
+
+The ellipses are then drawn with their positions and size. Originally these stretched around like bubbles, which is why they are ellipses, not circles. Never really needed to change them over to circles. Why fix what ain't broke?
+
+Lastly, the isDead() function just checks if the particle's life is over, by returning `true` when `this.life` is less than or equal to 0 (`<= 0`).
+
+## Mandelbulb.js
+The real meat and potatoes. You might be surprised to learn that i created this originally as a standalone experiment to play around with and learn about WebGL. There are so many resources out there explaining how to use it, like [MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API), and i really learned a lot from [brown37](https://learnwebgl.brown37.net)'s guide (section 5 and onward is where they start talking about actually rendering graphics).
+
+These guides alone were monumental, they contained so many useful code excerpts that were so easy to understand and so neatly documented, that i could pretty much instantly implement it into my code. 
+
+It does also help that in my Math elective, i just finished learning about matrices and vectors, which definitely helps in understanding a lot of the math i used.
+
+I remember having difficulty towards the start with having shaders in different files, i cant remember why, but clearly it stuck so now we have inline shaders. Not pretty inside of javascript and if i had to do it again, i would definitely invest time into learning what went wrong. Syntax highlighting would go a long way here. Luckily, i can document it all here with GLSL highlighting in markdown code blocks!
+
+### Mandelbulb.js: Initiation and Helper Functions
+```js
+/* \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\
+------------------------------------------------------------------------
+        Written by Travis Lizio | Creative Coding A2
+------------------------------------------------------------------------
+        Mandelbulb.js: 
+          Draws background fractal.
+------------------------------------------------------------------------
+\\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ */
+
+// Vector / Matrix Helpers
+// Calculate cross product of two 3D vectors
+function cross(a,b){ return [
+  a[1]*b[2] - a[2]*b[1],
+  a[2]*b[0] - a[0]*b[2],
+  a[0]*b[1] - a[1]*b[0]
+] }
+
+// Normalize 3D Vector to unit length
+function normalize(v){
+  let l = Math.hypot(v[0],v[1],v[2])
+  return [ v[0]/l, v[1]/l, v[2]/l ]
+}
+```
+There was a lot of reading involved in creating this code, computer graphics, as it turns out, are not so simple!
+
+These helper functions are fairly easy to describe though, and although [brown37](https://learnwebgl.brown37.net/model_data/model_volume.html?highlight=cross%20product) explains it well, this is my documentation.
+
+`cross()` returns a vector perpendicular to both a and b, used to determine in 3D spacial orientation, like `right`, `up` and `forward` directions later on.
+
+`normalize()` scales a vector to length 1, keeping its direction, which is quite useful for consistent direction-based calculations like lighting and ray directions.
+
+> it is right here in the code that we would write the GLSL shaders, but i'm choosing to present the javascript first, because the GLSL shaders are mostly just math and math isn't very engaging
+
+### Mandelbulb.js: Canvas and Shader Setup
+```js
+// Boilerplate: setup WebGL, compile shaders, create full-screen quad
+const canvas = document.getElementById('glcanvas')
+const gl = canvas.getContext('webgl2', {
+  powerPreference: 'high-performance'
+})
+
+// Shader compilation
+function createShader(gl, type, src){
+  let s = gl.createShader(type)
+  gl.shaderSource(s, src)
+  gl.compileShader(s)
+  if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)){
+    console.error(gl.getShaderInfoLog(s))
+    gl.deleteShader(s)
+    return null
+  }
+  return s
+}
+function createProgram(gl, vs, fs){
+  let v = createShader(gl, gl.VERTEX_SHADER, vs),
+      f = createShader(gl, gl.FRAGMENT_SHADER, fs),
+      p = gl.createProgram()
+  gl.attachShader(p, v)
+  gl.attachShader(p, f)
+  gl.linkProgram(p)
+  if(!gl.getProgramParameter(p, gl.LINK_STATUS)){
+    console.error(gl.getProgramInfoLog(p))
+    gl.deleteProgram(p)
+    return null
+  }
+  return p
+}
+
+// Program and uniforms
+const program = createProgram(gl, vsSource, fsSource);
+const posLoc = gl.getAttribLocation(program, 'a_position');
+const resLoc = gl.getUniformLocation(program, 'u_resolution');
+const camPosLoc = gl.getUniformLocation(program, 'u_cameraPos');
+const camMatLoc = gl.getUniformLocation(program, 'u_cameraMat');
+```
+We start by grabbing the HTML Canvas named `glcanvas` from the DOM and assigning it to a variable called `canvas` 
+
+We then assign the WebGL Context to `gl`, and tell the browser that we want high performance. This was something i found and used while debugging slow performance, and while it isn't really necessary i think it does actually speed up the code, so that's nice
+
+We then write a function `createShader()` to compile the WebGL shader. This is fairly straightforward, it's really mostly 3 lines:
+
+1. `s = createShader()` Assigns the shader to `s`
+2. `shaderSource()` Feeds the `shader` and the `source` to the context
+3. `compileShader()` compiles the shader
+
+The rest of the function is just error handling, leftover from when i was figuring out why the mandelbulb wasn't working.
+
+
+`createProgram()` creates and links a WebGL program from a vertex shader source `vs` and a fragment shader source `fs`.
+
+First, we compile the vertex and fragment shaders by calling `createShader()` for them, then create a new WebGL program with `createProgram()` and attach both shaders to it using `attachShader()`.
+
+Finally we go through each `uniform` from our frag shader, and assign it to a variable to edit with javascript.
+
+### Mandelbulb.js: Controls
+```js
+// Mandelbulb controls
+window.mandel = {
+  gl,
+  program,
+  uniforms: {
+    resolution: resLoc,
+    cameraPos:  camPosLoc,
+    cameraMat:  camMatLoc
+  },
+  params: {
+      // Camera position
+    cameraPos: [0, 0, 0],
+    // Camera rotation
+    yaw: Math.PI,  
+    pitch: 0,
+    roll: 0
+  },
+
+  // Update camera params
+  updateCamera({ pos, yaw, pitch, roll }) {
+    if (pos) {this.params.cameraPos = pos}
+    if (yaw !== undefined) {this.params.yaw = yaw}
+    if (pitch !== undefined) {this.params.pitch = pitch}
+    if (roll !== undefined) {this.params.roll = roll}
+  },
+
+  // Set uniforms
+  setCamera(pos, mat) {
+    this.gl.useProgram(this.program);
+    this.gl.uniform3fv(this.uniforms.cameraPos, pos);
+    this.gl.uniformMatrix3fv(this.uniforms.cameraMat, false, mat);
+  }
+};
+
+// Initial settings (Sometimes broke without this here.)
+window.mandel.params = {
+  cameraPos: [0, 0.1, 0.01],
+  yaw: Math.PI,
+  pitch: 0,
+  roll: 0
+}
+```
+Since we need to control the script from the global scope, we effectively give these functions and objects to the global scope, with `window.`. It's basically the same as just writing them as global.
+
+Inside the object `window.mandel`, we assign some subsets and a couple functions:
+
+we assign `gl`, `program`, `uniforms` and `params` as subsets inside the parent object, so they can be referenced and changed with `window.mandel.foo.x` (foo being the subset, x being a value)
+
+`uniforms` holds values directly relating to the GLSL scripts, and `params` holds values used within the javascript portion, mainly camera control
+
+we declare `updateCamera()` and `setCamera()` as functions to be called every update inside the controlling script, along with the changed values. Basically this is the groundwork for letting an outside script control this script
+
+At the end, we have a little remnant from the debugging stage, that sets the parameters with a slight `cameraPos` offset in 2 axis, since being stuck with any 1 or 2 values at exactly 0 caused some intense lag and the WebGL calculations to freak out. When i removed this, the code would occasionally break again on reload, so it stays. Doesn't hurt to have it here.
+
+### Mandelbulb.js: Rendering
+```js
+// Render onto a fullscreen quad
+const quad = gl.createBuffer()
+gl.bindBuffer(gl.ARRAY_BUFFER, quad)
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+    -1,-1, 1,-1, -1, 1, 
+    -1, 1, 1,-1,  1, 1
+]), gl.STATIC_DRAW)
+
+// Resize handling
+function resize(){
+  canvas.width = window.innerWidth
+  canvas.height= window.innerHeight
+  gl.viewport(0,0,canvas.width,canvas.height)
+}
+window.addEventListener('resize', resize)
+resize()
+```
+We create a fullscreen quad (like a triangle, but with 4 sides. This will make sense if you are familiar with polygons, this is a polygon) as a GPU Buffer to render our graphics onto
+
+`gl.bindBuffer()` basically tells WebGL “from now on, any `ARRAY_BUFFER` operations should use this `quad` buffer.”  `ARRAY_BUFFER` is the slot for raw vertex data.
+
+`gl.bufferData()` Uploads the actual vertex data into the currently bound ARRAY_BUFFER. The array holds six points, i.e. two triangles (3 vertices each), for the quad.
+> -1 to +1 are values in clip-space, which is the stage between 3D math and 2D drawing. We’re basically drawing two triangles that cover the corners of a 1x1 square in this space, which the GPU then stretches to fill the whole screen.
+
+The rest of this code block is just rudimentary resizing logic, pretty much exactly the same as i have in my `sketch.js`
+
+### Mandelbulb.js: Animation Loop
+```js
+// Animation loop
+function frame() {
+  const {cameraPos, yaw, pitch, roll} = window.mandel.params
+
+  // Camerra orientation
+  const front = normalize([ // Forward direction
+    Math.cos(pitch)*Math.sin(yaw),
+    Math.sin(pitch),
+    Math.cos(pitch)*Math.cos(yaw)
+  ]);
+  const right = normalize(cross(front, [0,1,0])); // Right direction
+  const up = cross(right, front); // Up direction
+
+  // Apply roll
+  const c = Math.cos(roll), s = Math.sin(roll);
+  const rRolled = [
+    right[0]*c + up[0]*s,
+    right[1]*c + up[1]*s,
+    right[2]*c + up[2]*s
+  ];
+  const uRolled = [
+    -right[0]*s + up[0]*c,
+    -right[1]*s + up[1]*c,
+    -right[2]*s + up[2]*c
+  ];
+
+  // Camera matrix
+  const camMat = new Float32Array([
+    rRolled[0], uRolled[0], front[0],
+    rRolled[1], uRolled[1], front[1],
+    rRolled[2], uRolled[2], front[2]
+  ]);
+  
+  // Draw
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.useProgram(program);
+  gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.uniform2f(resLoc, canvas.width, canvas.height);
+  window.mandel.setCamera(cameraPos, camMat)
+  
+  gl.drawArrays(gl.TRIANGLES, 0, 6); // Draw the quad
+  requestAnimationFrame(frame);
+}
+```
+The main drawing loop of `Mandelbulb.js`.
+
+We put everything that needs to be executed repeatedly inside this script here. we call the function `frame()` and call it right at the end with `requestAnimationFrame()`, so it loops and draws over itself, each frame.
+
+Before we render anything, we set our camera parameters to whatever the external script sets them to.
+
+Then, we calculate the camera's vectors `up` `right` `front` using some trig operations and vector math. We make good use of our `normalize()` and `cross()` functions from the top of the script.
+
+The next few lines augment the `right` and `up` vectors to apply a roll to the camera.
+
+`camMat` is our 3x3 camera rotation matrix, which we can create nice and neat.
+
+```js
+requestAnimationFrame(frame);
+```
+At the end of the script, we run `requestAnimationFrame()` one time, to kick the animation off. This part calls the main loop
+## Mandelbulb.js: GLSL Sources
+### vsSource
+```js
+// GLSL Sources
+// Map 2d Quad positions to screen space
+const vsSource =
+``` 
+```glsl
+#version 300 es
+in vec4 a_position;
+void main() {
+  gl_Position = a_position;
+}
+```
+
+I use `#version 300 es` to give myself access to webGL 2.0. Fun fact! p5.js doesn't like using this, which is the reason why i have to either cope with slow speeds (and i mean slow), or write the 2d and 3d scripts separate from each other.
+
+`in vec4 a_position` declares a 4 axis input vector, for vertex positions.
+
+The main loop `void main()` Sets the built-in output `gl_Position`, placing each vertex directly where specified, basically drawing a fullscreen quad without applying any camera or projection transformations.
+
+## Frag Shader
+This part requires its own section. We get back to javascript momentarily, but let us first examine how this almost magical shader works. It's surprisingly simple for the visuals it produces. The way the fractal renders is technically inaccurate, since it skips the interior parts of the fractal, but i liked the way it looked when i was flying around. If i rendered the inside, it would probably look something like big hero 6's portal scene (fun fact: they use a mandelbulb for their space bubble scene)
+
+![Big hero 6 fractal](/A2-Chaos/Attachments/BH6-Fractal.gif)
+
+### Frag Shader: Initialization and Constants
+```js
+// Frag shader, Render mandelbulb with ray marching
+const fsSource =
+```
+```glsl
+#version 300 es
+precision highp float;
+uniform vec2 u_resolution; // Canvas resolution
+uniform vec3 u_cameraPos; // Camera position 3D
+uniform mat3 u_cameraMat; // Camera rotation matrix
+out vec4 outColor; // Final pixel colour
+
+// Ray marching constants
+#define MAX_STEPS 10 // Max steps to march
+#define MAX_DIST   200.0 // Max distance before giving up
+#define SURF_DIST  0.001 // Distance to render points as a surface
+```
+We declare the Fragment Shader as fsSource, then write to it:
+
+`#version 300 es` uses WebGL 2.0
+
+The rest of the first half of this excerpt set up the inputs for resolution, camera position, and orientation.
+
+Then, constants are defined to control ray marching depth, maximum range, and surface threshold.
+
+### Frag Shader: Distance Estimator
+```glsl
+// Distance estimator
+float mandelbulbDE(vec3 pos){
+  vec3 z = pos; // Position
+  float dr = 1.0; // Derivative for distance scaling
+  float r = 0.0; // Radius
+
+  const int Iter = 8; // Mandelbulb order
+  for(int i=0; i<Iter; i++){
+    r = length(z);
+    if(r>2.0) break; // Escape outside bounds
+    float theta = acos(z.z/r); // Spherical coordinate theta
+    float phi   = atan(z.y, z.x); // Spherical coordinate phi
+    float powr  = pow(r, float(Iter)); // Scaling 'power'
+    dr = powr*float(Iter)*dr + 1.0; // Distance derivative
+    float zr = pow(r, float(Iter)); // Scaled radius
+    
+    // scale angles
+    theta *= float(Iter);
+    phi   *= float(Iter);
+
+      // Convert back to Cartesian (x,y axis)
+    z = zr * vec3(
+      sin(theta)*cos(phi),
+      sin(phi)*sin(theta),
+      cos(theta)
+    ) + pos;
+  }
+  if(r <= 2.0) return 0.1; // Small value if inside
+  return r/dr; // Distance estimate
+}
+
+// Scene distance function
+float sceneDE(vec3 p){
+  return mandelbulbDE(p); // Only mandelbulb in scene
+}
+```
+The `mandelbulbDE` function is our mandelbulb's distance estimator. It gives us the shape of the fractal. Without it, we would have something probably closer to a sphere.
+
+It takes a 3D point in space and iteratively transforms it using a power-based spherical coordinate system.
+
+The function converts the point from Cartesian coordinates (`x` and `y`) into spherical coordinates (`theta` and `phi`), scales the distance with a fractal power, and then converts it back to Cartesian coordinates.
+
+Each iteration adds more detail to the fractal. If the point escapes a radius of 2, the loop stops early. The function returns either a small constant `0.1` if the point is still inside the fractal or an estimated distance to the nearest surface, calculated using the accumulated derivative `dr`.
+
+### Frag Shader: Normal Estimation
+```glsl
+// Estimate normal by gradient
+vec3 getNormal(vec3 p){
+  float h = 0.0001; // Small step for gradient
+  vec2 k = vec2(1.0, -1.0);
+  return normalize(
+    k.xyy * sceneDE(p + k.xyy*h) +
+    k.yyx * sceneDE(p + k.yyx*h) +
+    k.yxy * sceneDE(p + k.yxy*h) +
+    k.xxx * sceneDE(p + k.xxx*h)
+  );
+}
+```
+The `getNormal` function estimates the normal vector at a point `p` by sampling nearby distances in multiple directions. 
+
+It uses a small offset value to slightly vary the point in the `x`, `y`, and `z` directions and evaluates how the scene’s distance function changes. By combining these offsets with a central difference pattern, it produces a gradient vector that approximates the surface normal.
+
+This vector is then normalized to ensure its length is exactly 1 (unit length). The resulting normal is used in lighting calculations, allowing the fragment shader to simulate how light interacts with the surface, i use it for shading later on.
+
+### Frag Shader: HSV Conversion to RGB
+```glsl
+// HSV Colour conversion
+vec3 hsv2rgb(vec3 c) {
+  vec4 K = vec4(1.0, 2.0/3.0, 1.0/3.0, 3.0);
+  vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+  return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+```
+glsl doesn't have any native functions for `colorMode` like p5 has, so we need to perform the calculations ourselves.
+
+It looks complicated, you can thank vector syntax for that. Really it just performs vector operations to remap that a HSV colour into RGB space. 
+
+I referred to [stack exchange](https://cs.stackexchange.com/questions/64549/convert-hsv-to-rgb-colors) for the calculations, mostly because it was the first result that came up. The answer was actually super detailed and interesting to read through, if you want to learn about it, i encourage you to read further, but you would be forgiven if you chose not to take on more reading.
+
+Basically we break the hue into segments and blend between primary colours based on how far into the segment the hue lies, calculated as `p`. The result is scaled by the `value` part of `HSV` to determine brightness. the colour is adjusted by the saturation for intensity.
+
+I'm using HSV here because i want to change the colour based on the distance from the camera. The effect is worth the effort in my opinion.
+
+### Frag Shader: Ray marching and Collision
+```glsl
+// Ray-march and shade (rendering the bulb)
+void main(){
+  vec2 uv = (gl_FragCoord.xy - 0.5*u_resolution) / u_resolution.y; // Normalized coords
+  vec3 rd = normalize(u_cameraMat * vec3(uv, 1.0)); // Ray direction
+  vec3 ro = u_cameraPos; // Ray Origin
+  float dist = 0.0;
+  for(int i=0; i<MAX_STEPS; i++){ // March along ray
+    vec3 p = ro + rd*dist;
+    float d = sceneDE(p);
+    if(d < SURF_DIST || dist > MAX_DIST) break; // Hit or too far
+    dist += d;
+  }
+  vec3 col = vec3(0.0); // default black colour
+
+  // Surface hit
+  if(dist < MAX_DIST){
+    vec3 p = ro + rd*dist;
+    vec3 n = getNormal(p); // Surface Normal
+    float diff = clamp(dot(n, vec3(0,1,0)), 0.0, 1.0); // Diffuse light
+    float hue = mod(dist * 0.2, 1.0); // Colour by distance (looks like a cool rainbow)
+    float saturation = 1.0;
+    float value = clamp(diff * 5.0, 0.2, 0.9); // Brightness
+
+    col = hsv2rgb(vec3(hue, saturation, value));
+  }
+  outColor = vec4(col,1.0); // Colour to draw
+}
+```
+The `main()` function begins by converting the fragment’s position on screen into a normalized coordinate system. 
+
+we construct a 3D ray direction using the camera matrix (u_cameraMat) and the screen-space vector (`uv`), and starts marching that ray from `u_cameraPos` into the scene. At each step, it checks how far it can move forward by calling `sceneDE()`. If it gets closer than the surface threshold or exceeds the maximum range, it stops marching.
+
+If the ray hits a surface, the shader calculates the normal `n` at the hit point, determines lighting using the dot product between the normal and an upward light direction (`diff`), and maps the distance to `hue` to create a gradient that in my opinion, really sells the visuals. 
+ 
+Finally, the colour is converted from HSV to RGB and written to the screen as the final pixel output. If the ray never hit anything, the pixel remains black.
