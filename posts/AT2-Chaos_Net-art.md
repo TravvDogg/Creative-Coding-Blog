@@ -161,11 +161,22 @@ A2's rubric asks for certain coding criteria to be met, and while i wont give an
   }
   ```
 - classes
-  `particle.js` stores a class `Particle` used in `sketch.js`
+  1. `particle.js` stores a class `Particle` used in `sketch.js`
   ```js
-  
+  class Particle {
+    constructor(x, y) {
+  ...
+  }
   ```
 - recursion
+  1. `sketch.js` uses recursion in the function `sumSpectrum()`
+  ```js
+  function sumSpectrum(arr, i = 0) {
+    if (i >= arr.length) return 0
+    return arr[i] + sumSpectrum(arr, i+1)  // recursion!!!! :)
+  }
+  let sum = sumSpectrum(spectrum)
+  ```
 
 # Documentation and Process
 I don't blame you if you skim over the next part. There are more lines writing about the code than there are actual lines of code. Call me thorough. :)
