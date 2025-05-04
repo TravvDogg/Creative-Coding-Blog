@@ -8,28 +8,25 @@ allow_math: true
 
 # **IMPORTANT: Read Disclaimers Before Scrolling**
 
-### Copy of README.md:
+Disclaimers:
 
-<div id="readme-wrapper">
-  <div id="readme-container">Loading README...</div>
+- This code renders a Fractal using WebGL. It's performance-heavy, so it may be slow on mobile devices and will drain your battery 😋.
+- This code requires access to your microphone to work. All processing is done client-side.
+- **Might cause motion sickness in some people.**
+- **This content may contain flashing images or sequences that could trigger seizures in people with photosensitive epilepsy or other seizure disorders. If you experience any symptoms such as dizziness, altered vision, eye or muscle twitching, or involuntary movements, discontinue viewing immediately and consult a medical professional.**
 
-  ### Once again, please **DO NOT** interact with this piece if you have symptoms of epilepsy.
-</div>
+### Try these
 
+1. House or club music (e.g., Daft Punk – ‘Get Lucky’)
+2. Calmer music (e.g., The Marías – ‘Fog as a Bullet’)
 
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script type="module">
-  fetch('https://raw.githubusercontent.com/TravvDogg/A2_Chaos/main/README.md')
-    .then(response => response.text())
-    .then(md => {
-      document.getElementById('readme-container').innerHTML = marked.parse(md);
-    })
-    .catch(err => {
-      document.getElementById('readme-container').innerText = 'Failed to load README.';
-      console.error(err);
-    });
-</script>
+These tracks showcase the separate frequency effects in different ways. I encourage you to experiment with your own music—I find that bass-heavy tracks are fun, but more delicate, high-fidelity music often works best.
 
+> The louder you play the music, the more pronounced the visuals. This visualiser was tuned for conversation volume. Funky stuff happens if you go much higher (rubbing or blowing into the mic)—give it a go if you want!
+
+<br> <br> <br>
+
+### Once again, please **DO NOT** interact with this piece if you have symptoms of epilepsy.
 <div>
 
 # <br>
@@ -57,15 +54,123 @@ What you see in the final piece is the set of individual parts that made it to t
 
 Realizing this abstraction was a key part in unlocking my creative potential.. Or rather, separating my creative mind from my technical mind.
 
-# Each Piece of the code, Explained
-I don't blame you if you skim over the process. There are more characters writing about the code than there are actual lines of code. Call me thorough. :)
+# Response to chosen text:
+### Information and Thinking <br> by Michael Serres
+I experience my visualiser as a dialogue with Serres’s ideas. Every sound instantly becomes a visual element. “*What is thinking, if not at least carrying out these four operations: receiving, emitting, storing and processing information like all existing things?*” I think this definition of thinking was a great place to shoot off from, and in a way, my code looks more alive because of it.
+
+While music plays, the fractal in the back moves around and stands out when the volume peaks with a jerky movement, so new parts appear exactly when something happens. The constant movement is like the fractal listening. Our minds and bodies are never still, and this persistent movement mimics that.
+
+Maybe a reach, but the repeating and branching pattern of the fractal feels like the networks Serres describes, tiny cells or vast societies, “*Where does this information circulate? Basically, in networks.*”
+
+Combined, the 2D foreground of my sketch and 3D background bring the music to life visually. This is encoding, the visualiser takes in information, and responds to it. It gives the music a new medium to be consumed. “*They encode, we encode; they count, we count; we speak, they speak.*”
+
+# Why I Consider It as Post-Digital
+Post-Digital means embracing networks, social, biological, technological, as one continuous system.
+
+I can call my visualiser Post-Digital because it refuses to treat the digital as separate from the material world. My visualiser isn’t just code on a screen, it’s code that behaves like a living thing. The 2D visualiser and the 3D fractal coexist, bleed into each other, and demand you feel the data as texture and space, not just numbers.
+
+My code's glitches and artifacts aren’t bugs, they’re part of the language of Post-Digital. When the fractal jerks and reconfigures itself at volume peaks, it’s not hiding the algorithm, it’s celebrating it. There is beauty in any imperfection, and my code demonstrates this well.
+
+This visualiser isn’t a final, polished product. It’s a living sketch. always listening, always shifting, because Post-Digital art lives between stability and surprise. It gives music a new body, a new medium.
+
+# The code
 
 As mentioned earlier, this piece is a culmination of many previous attempts. As such, it's fairly easy to go through line-by-line and extract the meaning behind each modular part of the code. Note that the code i document will be *slightly* different from the code embedded in this document: The intended experience is in fullscreen, so the documented code is the fullscreen code. The only differences will be how the sizes of the frame and objects are calculated.
 
 Although inherently most of the code was made without it, almost every working visual element relies on different parts of p5's audio engine to modulate or control them. Without access to an FFT (fast fourier transform) like p5 provides, there simply would be no option for audio visualization, and it would be a completely randomly generated frame, which wouldn't be very interactive or interesting to play with. 
 
-## Sketch.js
+## Filling Criteria:
+A2's rubric asks for certain coding criteria to be met, and while i wont give an exhaustive list of common things like my variables, i'll give a few examples: 
+- variables
+    1. In `sketch.js`, right at the top of the file:
+    ```js
+    let glitchX, glitchY, glitchW, glitchH
+    let glitchFrames = 0
+    const glitch_duration = 200
+    const glitch_chance = 0.001
+    ```
+    They are used right down the bottom
+    ```js
+    else if (random() < glitch_chance) {
+      glitchW = random(width / 16, width / 3)
+      glitchH = random(height / 16, height / 3)
+      glitchX = random(0, width - glitchW)
+      glitchY = random(0, height - glitchH)
+      glitchFrames = int(random(100, 1000))
+    }
+    ```
+- iteration
+  1. in `sketch.js`, i iterate over an array containing each treble particle
+  ```js
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i]
+    p.update()
+    p.draw()
+    if (p.isDead()) {
+      particles.splice(i, 1)
+    }
+  }
+  ```
+  2. in `sketch.js`, i draw scanlines
+   ```js
+  for (let i = 0; i < 10; i++) {
+    colorMode(HSB)
+    fill(random(scanline_colours), random(0.3, 1))
+    colorMode(RGB)
+    let y = random(height)
+    rect(0, y, width, random(1, 3))
+  }
+   ```
+- functions
+  1. in `sketch.js`, i call a function defined in `Mandelbulb.js`
+  ```js
+  updateCamera({ pos, yaw, pitch, roll }) {
+    if (pos) {this.params.cameraPos = pos}
+    if (yaw !== undefined) {this.params.yaw = yaw}
+    if (pitch !== undefined) {this.params.pitch = pitch}
+    if (roll !== undefined) {this.params.roll = roll}
+  },
+  ```
+  ```js
+  window.mandel.updateCamera({
+  pos: [px, py, pz],
+  yaw,
+  pitch,
+  roll
+  })
+  ```
+- boolean logic
+  1. In `sketch.js`, i use a ternary operator
+  ```js
+  let shakeAmount = bass > 150 ? map(bass, 150, 255, 0, 30) : 0
+  ```
+  2. In `sketch.js`, i use a boolean check to delete particles
+   ```js
+  if (p.isDead()) {
+    particles.splice(i, 1)
+  }
+  ```
+- arrays
+  1. I store my particles in an array inside of `sketch.js`
+  ```js
+  let particles = []
+  ```
+  ```js
+  for (let i = 0; i < (treble / 255) * 20; i++) {
+    particles.push(new Particle(random(width), random(height)));
+  }
+  ```
+- classes
+  `particle.js` stores a class `Particle` used in `sketch.js`
+  ```js
+  
+  ```
+- recursion
 
+# Documentation and Process
+I don't blame you if you skim over the next part. There are more lines writing about the code than there are actual lines of code. Call me thorough. :)
+
+## sketch.js
 Starting from the script that controls it all, `sketch.js` is where *most* random visual elements culminate. Most importantly, it's the script using the FFT and as such, controls each other part of the simulation. 
 
 This code uses the `P5.min.js` library, and the `p5.sound.min.js` library to function. TLDR: it uses P5. 
@@ -74,7 +179,7 @@ This script joins `particle.js` in being the only scripts using P5's libraries.
 
 Let's break it into parts, so it's easier to digest, and a bit less daunting to look at:
 
-### Sketch.js: Setup and Initial Declaration
+### sketch.js: Setup and Initial Declaration
 ```js
 /* \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\
 ------------------------------------------------------------------------
@@ -138,12 +243,12 @@ At the top of the block, we initialise some variables like `buffer`, `particles`
 In our `setup()`, we call some functions, mainly initialization. Most importantly, we create the buffer to be used as a 'screenshot' of the canvas, and we initialise the FFT and mic input.
 > FFT stands for Fast Fourier Transform. There's a lot of math behind it, but essentially it allows us to isolate parts of the audio input, like Bass, Mids and Treble, as well as Loudness and other characteristics.
 
-### Sketch.js: Everything inside `draw()`
+### sketch.js: Draw loop
 My code uses p5's libraries. This next section makes use of the `draw()` function, which acts as a constant update, running(or trying to run) at the framerate we declared in `setup()`, as `frameRate(60)`.
 
 The `draw()` loop contains quite the sizeable amount of code. Instead of breaking it apart as a whole, i'll break it down into functional parts. That way we get a better understanding of my thought process, and the modularity of each part of the code.
 
-### Sketch.js FFT Setup
+### sketch.js FFT Setup
 
 ```js
 // audio analysis
@@ -181,7 +286,7 @@ We then declare `bass`, `treble` and `mid` using p5's `fft.getEnergy` function, 
 
 `shakeAmount` dictates the screen shake introduced by bass, and makes use of a ternary operator to make sure the screen is only shaking in extreme circumstances. This makes sure that the times the screen does shake feel deserved, and in turn more impactful.
 
-### Sketch.js Mandelbulb Control
+### sketch.js Mandelbulb Control
 ```js
 // Mandelbulb Calculations
 const audioNorm = constrain(audioLevel/255, 0, 1)
@@ -246,7 +351,7 @@ Finally, we call the function inside of Mandelbulb.js, given by window.mandel.up
 
 These values will be translated into the mandelbulb's WebGL variables, but that's done inside the mandelbulb's code, which we look at later.
 
-### Sketch.js Bass Square
+### sketch.js Bass Square
 
 ```js
 // Draw square in the centre that pulses with bass
@@ -273,7 +378,7 @@ Since this code came from an external script, i imported all of its settings (`s
 
 In the current build, the shape is a square, and it's size modulates by the music's bass. Do note that this was tuned with my subwoofer, so reading from a laptop's speakers might produce different results.
 
-### Sketch.js: Buffer Resizing
+### sketch.js: Buffer Resizing
 ```javascript
 push()
 // Rotate the canvas based on mids
@@ -321,7 +426,7 @@ After everything else is drawn on top, the canvas is loaded into the buffer with
 
 Anything between these lines is captured inside of the frame buffer and drawn again, resized in the next frame.
 
-### Sketch.js: Glitch Scanlines
+### sketch.js: Glitch Scanlines
 ```js
 // glitch scanlines
 let scanline_sat = 20
@@ -355,7 +460,7 @@ the scanlines are given a random chance each frame to trigger, the chance rises 
 
 10 scanlines are drawn at a time, at a random height. They all inherit a random colour and transparency, and then are drawn across the screen horizontally. 
 
-### Sketch.js: Treble Circles
+### sketch.js: Treble Circles
 ```js
 // Treble circles
   // spawn persistent particles
@@ -381,7 +486,7 @@ The first half of this block spawns particles based on the amount of treble ener
 
 The second half of the block iterates through each particle and calls the `update()` and `draw()` functions of the `particle` class. Finally, if the particle's `isDead` condition is met, the particle is removed.
 
-### Sketch.js: Glitchy Holes / Buffer drawing
+### sketch.js: Glitchy Holes / Buffer drawing
 ```js
 // Glitchy 'Holes'
 if (glitchFrames > 0) {
@@ -758,7 +863,22 @@ Then, we calculate the camera's vectors `up` `right` `front` using some trig ope
 
 The next few lines augment the `right` and `up` vectors to apply a roll to the camera.
 
-`camMat` is our 3x3 camera rotation matrix, which we can create nice and neat.
+`camMat` is our 3x3 camera rotation matrix, which controls the direction of the GLSL ray marching.
+
+Finally, we run a bunch of stuff on the WebGL context.:
+- `clear()` resets the graphics buffer
+- `useProgram` tells WebGL to use my compiled shader for everything following this line
+- `bindBuffer()` tells WebGL to use the fullscreen quad's attributes when asked
+- `enableVertexAttribArray()` enables the vertex attribute at `posLoc`
+- `vertexAttribPointer()` defines how to read the buffer
+  - 2 floats per vertex
+  - no normalisation
+  - tightly packed
+  - starting at offset 0
+- `uniform2f()` uploads the canvas dimensions to the shader
+- `drawArrays()` draws 2 triangles (6 vertices) from the buffer, for the fullscreen quad
+
+and of course, mixed in is `window.mandel.setCamera()`, which just updates the camera position inside of webGL
 
 ```js
 requestAnimationFrame(frame);
@@ -938,3 +1058,9 @@ we construct a 3D ray direction using the camera matrix (u_cameraMat) and the sc
 If the ray hits a surface, the shader calculates the normal `n` at the hit point, determines lighting using the dot product between the normal and an upward light direction (`diff`), and maps the distance to `hue` to create a gradient that in my opinion, really sells the visuals. 
  
 Finally, the colour is converted from HSV to RGB and written to the screen as the final pixel output. If the ray never hit anything, the pixel remains black.
+
+---
+
+Yeah, this took a while to write.. I had a lot of fun documenting this code though, it appears once my fingers start typing they dont really stop.
+
+If you read this far through, i want to thank you for your thorough interest in my work, and i wish you a good day.
