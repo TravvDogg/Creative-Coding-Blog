@@ -208,3 +208,8 @@ allow_math: true
 </script>
 
 # Glitch Art by Sabato Visconti
+![Sabato_Visconti-_glitchy-Flower.gif](/Wk-5B/Sabato_Visconti-_glitchy-Flower.gif)
+
+The shape, speed and percieved randomness of the flower's devolution into nothing more than some abstract polygons turn an otherwise uninteresting 3d model into a chaotic artwork, and it compresses down in a way that reduces its complexity, while arguably maintaining its compressiblity, therefore maintaining it's effective complexity.
+
+Sabato Visconti likely uses three.js to render the rose, and has a function that deletes points on the flower until it gets to a certain number of points, or a percentage of the amount of points it starts with, gradually reducing and holding for a moment, before reversing back and re-adding the points.
