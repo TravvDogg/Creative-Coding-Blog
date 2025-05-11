@@ -7,7 +7,6 @@ allow_math: true
 ---
 <div id="threejs_container"></div>
 
-{% raw %}
 <script type="module"> 
 	// import * as THREE from "/three.js/build/three.module.js"
 	// import { GUI } from "/three.js/examples/jsm/libs/lil-gui.module.min.js"
@@ -207,12 +206,5 @@ allow_math: true
 	}
 
 </script>
-{% endraw %}
 
-{% raw %}
-<script>
-
-	console.log("Hello, world")
-	
-</script>
-{% endraw %}
+# Glitch Art by Sabato Visconti

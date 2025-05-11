@@ -1,6 +1,6 @@
 ---
-title: "Week 6b:"
-published_at: "2025-04-15"
+title: "Week 6b: Shaders"
+published_at: 2025-04-15
 snippet: I play with WebGL Shaders
 disable_html_sanitization: true
 allow_math: true
@@ -8,12 +8,12 @@ allow_math: true
 
 This week, we are learning to write and modify shaders using webGL shaders in Javascript. We were given an example to work with, which i have modified to show my understanding of shaders.
 
-# what is a shader?
+# What is a Shader?
 Shaders make use of the computer's GPU to calculate and render sequences of repetitive calculations **much faster** than a CPU. Shaders also offer the advantage of being able to read or write from any part of the rendering pipeline, shown here from WebGL's website
 ![webGL-Pipeline](Wk-6B/WebGl-Pipeline.png)
 Shaders are essential in rendering 3d models, by calculating how lighting interacts with surfaces and how pixels are drawn to the screen. 
 
-# simple shader example
+# Simple Shader Example
 <div id="shader_example_div"></div>
 
 <script type="module" id="shader_example_script">

@@ -1,7 +1,7 @@
 ---
 title: "Week 4b: Glitchy Self"
 published_at: 2025-04-01
-snippet: 
+snippet: I render a selfie in a glitchy way, and explain how that affects it's aesthetic register
 disable_html_sanitization: true
 allow_math: true
 ---
