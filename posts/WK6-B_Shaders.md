@@ -87,3 +87,14 @@ const shaderMaterial = new THREE.ShaderMaterial({
    codeblockRenderer(document, "shader_example_script", "shader_example_div")
 </script>
 For this example, i looked at two examples given to us and replicated the visuals of one with the form of the other. It has a really cool effect when you drag it around, almost looking like a convex lense when you move it around, only for the illusion to dissappear once the frame is rotated past a certain point. Pretty cool!
+
+
+# Text I Will Respond To in A2: Information and Thinking
+
+### Three Passages That Resonate With Me
+1. Four Universal Rules of Thinking
+	> “What is thinking, if not at least carrying out these four operations: receiving, emitting, storing and processing information like all existing things?”
+2. Information processing
+	> “All things, in some way, perceive – see, write, read – just like us.”
+3. Verne's cave
+	>“Verne’s cave even shows the vision the universe has of itself.”

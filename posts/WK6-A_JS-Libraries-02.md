@@ -105,10 +105,10 @@ However, [esm.sh](https://esm.sh) can be used here to import the npm package as 
 
 # Text Summaries
 ### Information & Thinking
-Serres examines how information flows into thought. He suggests that thinking is not merely a linear process but a creative, intricate transformation of dispersed data into meaningful connections, challenging traditional ideas about rationality and structure.
+This text examines how information flows into thought. It suggests that thinking is not merely a linear process but a creative, intricate transformation of data into meaningful connections.
 
 ### What Is It Like to Be A Fungus?
-Sheldrake invites us to explore life from the perspective of fungi. The text highlights the complex, networked existence of fungi, showing that they are not isolated organisms but key players in the ecological web, which challenges our anthropocentric views of life.
+The text invites us to explore life from the perspective of fungi. It talks about the complex networked existence of fungi, and shows that they are not just isolated organisms, instead they are all connected in an ecological web.
 
 ### Xenofeminism
-This manifesto advocates for a feminism that embraces technology and scientific rationality. It calls for using digital and biotechnological innovations to dismantle traditional gender roles and societal constraints, envisioning a politics that transforms alienation into empowerment.
+This text talks about a feminism that embraces technology and science. It talks about using digital and biotechnological science to break apart traditional gender roles and societal constraints.

@@ -18,31 +18,27 @@ If AIHVHIA were to use Javascript to generate some of these audio effects, they 
 ## RiTa.js Poem
 <div id="RiTa_example"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/rita"></script>
+<script src="/_scripts/RiTa/rita.js"></script>
 
 <script id="RiTa_example_script">
-document.getElementById('RiTa_example').innerHTML = 
-  '<p>The ' + RiTa.randomWord({pos: 'jj'}) + ' ' + 
-  RiTa.randomWord({pos: 'nn'}) + ' ' + 
-  RiTa.randomWord({pos: 'vb'}) + 's with ' + 
-  RiTa.randomWord({pos: 'jj'}) + ' ' + 
-  RiTa.randomWord({pos: 'nn'}) + '</p>' +
+function generatePoemLine() {
+  return '<p>The ' + RiTa.randomWord({pos: 'jj'}) + ' ' + 
+    RiTa.randomWord({pos: 'nn'}) + ' ' + 
+    RiTa.randomWord({pos: 'vb'}) + 's with ' + 
+    RiTa.randomWord({pos: 'jj'}) + ' ' + 
+    RiTa.randomWord({pos: 'nn'}) + '</p>';
+}
 
-  '<p>The ' + RiTa.randomWord({pos: 'jj'}) + ' ' + 
-  RiTa.randomWord({pos: 'nn'}) + ' ' + 
-  RiTa.randomWord({pos: 'vb'}) + 's with ' + 
-  RiTa.randomWord({pos: 'jj'}) + ' ' + 
-  RiTa.randomWord({pos: 'nn'}) + '</p>' +
+let poem = '';
+for (let i = 0; i < 4; i++) {
+  poem += generatePoemLine();
+}
 
-  '<p>The ' + RiTa.randomWord({pos: 'jj'}) + ' ' + 
-  RiTa.randomWord({pos: 'nn'}) + ' ' + 
-  RiTa.randomWord({pos: 'vb'}) + 's with ' + 
-  RiTa.randomWord({pos: 'jj'}) + ' ' + 
-  RiTa.randomWord({pos: 'nn'}) + '</p>' +
+document.getElementById('RiTa_example').innerHTML = poem;
+</script>
 
-  '<p>The ' + RiTa.randomWord({pos: 'jj'}) + ' ' + 
-  RiTa.randomWord({pos: 'nn'}) + ' ' + 
-  RiTa.randomWord({pos: 'vb'}) + 's with ' + 
-  RiTa.randomWord({pos: 'jj'}) + ' ' + 
-  RiTa.randomWord({pos: 'nn'}) + '</p>';
+<script type="module"> 
+import codeblockRenderer from "/_scripts/codeblock_renderer.js"
+
+codeblockRenderer(document, "RiTa_example_script", "RiTa_example")
 </script>
