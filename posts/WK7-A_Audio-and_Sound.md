@@ -41,56 +41,16 @@ Like Pink Trombone, Jungle Noise Generator sees every building block of a whole 
 <button id="startBtn">(This is a Button) Start Audio</button>
   <div id="Sound-Experiment">
     <label for="baseFreq">Frequency:</label>
-    <input type="range" id="baseFreq" min="100" max="1000" value="440">
+    <input type="range" id="baseFreq" min="44" max="880" value="440">
     <span id="freqValue">440 Hz</span>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.42/Tone.js"></script>
-  <script id="Sound-Experiment_script">
-    const startBtn = document.getElementById('startBtn');
-    const freqSlider = document.getElementById('baseFreq');
-    const freqValue = document.getElementById('freqValue');
-
-    startBtn.addEventListener('click', async () => {
-      // Ensure user gesture to unlock AudioContext
-      await Tone.start()
-      startBtn.disabled = true
-      startBtn.textContent = 'Audio Running'
-
-      // Create a sine oscillator
-      const osc = new Tone.Oscillator(440, 'sine')
-
-      // Create a distortion effect, initially off
-      const distortion = new Tone.Distortion(0).toDestination()
-
-      // LFO at 1/24 Hz (one cycle every 24 seconds) to modulate distortion amount
-      // LFO stands for Low Frequency Oscillator
-      const chaosLFO = new Tone.LFO({
-        frequency: 1/24,
-        min: 0,
-        max: 1
-      }).start()
-      chaosLFO.connect(distortion, 'distortion')
-
-      // Connect oscillator through distortion to output
-      osc.connect(distortion)
-
-      // Start the oscillator
-      osc.start()
-
-      // Update base frequency via slider
-      freqSlider.addEventListener('input', (e) => {
-        const val = Number(e.target.value)
-        osc.frequency.value = val
-        freqValue.textContent = val + ' Hz'
-      })
-    })
-  </script>
+  <script src="/Wk-7A/Tone.js"></script>
+  <script src="Wk-7A/Sound-Experiment.js"></script>
 
 <script type="module">
 import codeblockRenderer from "/_scripts/codeblock_renderer.js"
-
-codeblockRenderer(document, "Sound-Experiment_script", "Sound-Experiment")
+codeblockRenderer(document, "Wk-7A/Sound-Experiment.js", "Sound-Experiment")
 </script>
 
 The script uses Tone.js and an adjustable slider for a 'base frequency'
