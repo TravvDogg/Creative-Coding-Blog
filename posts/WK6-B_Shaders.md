@@ -89,7 +89,7 @@ const shaderMaterial = new THREE.ShaderMaterial({
 For this example, i looked at two examples given to us and replicated the visuals of one with the form of the other. It has a really cool effect when you drag it around, almost looking like a convex lense when you move it around, only for the illusion to dissappear once the frame is rotated past a certain point. Pretty cool!
 
 
-# Text I Will Respond To in A2: Information and Thinking
+# Rough Draft A2
 
 ### Three Passages That Resonate With Me
 1. Four Universal Rules of Thinking
@@ -98,3 +98,9 @@ For this example, i looked at two examples given to us and replicated the visual
 	> “All things, in some way, perceive – see, write, read – just like us.”
 3. Verne's cave
 	>“Verne’s cave even shows the vision the universe has of itself.”
+### Two Techniques
+1. Glitch
+2. Signals / envelopes
+
+## Combining these ideas into a rough draft:
+
