@@ -35,7 +35,7 @@ renderer.setSize (width, height)
 div.appendChild (renderer.domElement)
 
 const controls = new OrbitControls (camera, renderer.domElement)
-   
+
 const shaderMaterial = new THREE.ShaderMaterial({
   uniforms: {
     u_time:    { value: 0.0 }
@@ -71,19 +71,19 @@ const shaderMaterial = new THREE.ShaderMaterial({
     }
   `
 })
-   
+
    // Create a simple plane to display our shader
    const geometry = new THREE.PlaneGeometry (1.6, 0.9)
    const mesh = new THREE.Mesh (geometry, shaderMaterial)
    scene.add (mesh)
-   
+
    // Animation loop
    renderer.setAnimationLoop (time => {
       shaderMaterial.uniforms.u_time.value = time * 0.001
       renderer.render (scene, camera)
    })
-   
+
    // Render code block
-   codeblockRenderer (document, "shader_example_div", "shader_example_script")
+   codeblockRenderer(document, "shader_example_script", "shader_example_div")
 </script>
 For this example, i looked at two examples given to us and replicated the visuals of one with the form of the other. It has a really cool effect when you drag it around, almost looking like a convex lense when you move it around, only for the illusion to dissappear once the frame is rotated past a certain point. Pretty cool!

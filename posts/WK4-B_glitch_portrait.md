@@ -10,8 +10,7 @@ allow_math: true
 
 <canvas id="glitch_self_portrait"></canvas>
 
-{% raw  %}
-<script type="module">
+<script type="module" id="glitch_portrait_script">
 
    const cnv = document.getElementById (`glitch_self_portrait`)
    cnv.width = cnv.parentNode.scrollWidth
@@ -31,7 +30,7 @@ allow_math: true
       img_data = cnv.toDataURL ("image/jpeg")
       add_glitch ()
    }
-   img.src = `Wk-4B/Selfie.jpeg)`
+   img.src = `Wk-4B/Selfie.jpeg`
 
    const rand_int = max => Math.floor (Math.random () * max)
 
@@ -73,4 +72,18 @@ allow_math: true
    }
 
 </script>
-{% endraw %}
+
+<script type="module">
+import codeblockRenderer from "/_scripts/codeblock_renderer.js"
+
+codeblockRenderer(document, "glitch_portrait_script", "glitch_self_portrait")
+</script>
+
+# How rendering my likeness in this way affects its aesthetic register
+Rendering my likeness with a glitchy, colour-shifted script transforms the image into an aesthetic art piece with post-digital meaning. By distorting the image using glitch techniques, I'm disrupting the image of the portrait. This transformation engages Ngai’s aesthetic registers the zany, the cute, and the interesting most closely aligning with the zany, as the portrait becomes an object of chaos and digital entanglement.
+
+Drawing on Menkman’s “A Phenomenology of Glitch Art” (2011), this approach echoes her idea that glitches “force the viewer to make active sense of the work.” By introducing randomness and a glitchy effect, the portrait becomes less about self-recognition and more about the underlying digital processes.
+
+From the Net Art Readings, Ippolito’s “Ten Myths of Internet Art” (2002) helps contextualise this gesture as resistant to aesthetic norms. My glitch portrait refuses polish and coherence, embracing what Ippolito would frame as myth-busting, that digital art must aim for perfection or high fidelity. Instead, I express imperfection intentionally, to add to the visual interest of the image.
+
+The use of randomised, colour-shifted lines introduces glitches that don’t fully obscure the underlying image but interrupt its legibility. The portrait retains some structured order, but the glitch artefacts introduce irregularity and unpredictability.
