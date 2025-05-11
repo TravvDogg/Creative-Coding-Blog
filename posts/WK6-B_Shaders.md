@@ -104,3 +104,27 @@ For this example, i looked at two examples given to us and replicated the visual
 
 ## Combining these ideas into a rough draft:
 
+<div id="sketch-holder"></div>
+
+<script src="/_scripts/p5.js"></script>
+<script src="/_scripts/p5.sound.min.js"></script>
+<script src="/Wk-6B/WIP_sketch.js" id="WIP_Sketch"></script>
+
+<script type="module">
+import codeblockRenderer from "/_scripts/codeblock_renderer.js"
+
+codeblockRenderer(document, "/Wk-6B/WIP_sketch.js", "sketch-holder")
+</script>
+
+# Feedback from peers
+I asked Sam and Wilby for feedback on on my response to the chosen text, if it was an example of post-digital and if it functioned in a chaotic aesthetic register.
+
+They mentioned that it responded well to the chosen text, because it performed the four universal rules of thinking
+
+They noted that it was post digital, because it uses sound to turn something organic to a very digital interpretation of something exotic
+
+They think that in its current stage, at a glance it appears chaotic, but settles into predictability over time.
+
+## Next Phase of the Project
+
+I will hone in one what the code is already good at doing, and work on giving it some more effective complexity. I like the idea of fractals, and how they represent effective complexity well, perhaps i could do something in the background to give it some more chaos and complexity as well.
