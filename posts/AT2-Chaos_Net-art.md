@@ -40,7 +40,7 @@ These tracks showcase the separate frequency effects in different ways. I encour
   sandbox="allow-scripts allow-same-origin"
 ></iframe>
 
-<small>A2_Chaos on [Github](https://github.com/TravvDogg/A2_Chaos)</small>
+<small>A2_Chaos on [Github](https://github.com/TravvDogg/A2_Chaos) | [Fullscreen](https://travislizio-a2-chaos-62.deno.dev/)</small>
 
 ---
 
