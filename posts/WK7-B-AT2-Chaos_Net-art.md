@@ -1,7 +1,7 @@
 ---
 title: "Week 7B | A2: Chaos!"
-published_at: 2025-05-04
-snippet: "I demonstrate net art of the 'Zany' aesthetic register, responding to an essay by Michael Serres"
+published_at: 2025-04-30
+snippet: I demonstrate net art of the 'Zany' aesthetic register, responding to an essay by Michael Serres
 disable_html_sanitization: true
 allow_math: true
 ---

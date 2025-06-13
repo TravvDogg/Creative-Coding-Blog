@@ -16,26 +16,6 @@ allow_math: true
     iframe.height = iframe.width * 9 / 16 + 42
 </script>
 
-or
-
-// Not working at the moment, dont know why
-<script src="./_scripts/p5.js"></script>
-
-<div id="basic_script-div"></div>
-
-<script id="basic_script" type="module">
-    import codeblockRenderer from "/_scripts/codeblock_renderer.js"
-	function setup() {
-		createCanvas(400, 400)
-	}
-
-	function draw() {
-		background(200)
-	}
-
-    codeblockRenderer (document, "basic_script", "basic_script-div")
-</script>
-
 ## Embedding Rafael's works:
 <iframe src="https://www.newrafael.com/reflection/" style="width:100%; height:600px; border:none;" title="New Rafael Zoom"></iframe>
 # This is h1

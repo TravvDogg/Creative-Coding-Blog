@@ -32,6 +32,18 @@ export default async function codeblockRenderer(document, source, el_name) {
     if (!script) {
       console.error(`Script element with ID "${source}" not found`)
       codeContent = `// Error: Script element with ID "${source}" not found`
+    } else if (script.src) {
+      // If the script has a src attribute, fetch the content from that URL
+      try {
+        const response = await fetch(script.src)
+        if (!response.ok) {
+          throw new Error(`Failed to fetch file: ${response.status} ${response.statusText}`)
+        }
+        codeContent = await response.text()
+      } catch (error) {
+        console.error(`Error fetching file "${script.src}":`, error)
+        codeContent = `// Error loading file: ${error.message}`
+      }
     } else {
       codeContent = script.innerText
     }
